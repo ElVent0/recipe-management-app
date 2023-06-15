@@ -33,7 +33,7 @@ const NewItemModal = ({ onOpenModal }) => {
     e.preventDefault();
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("recipes")
         .insert({
           user_id: session.user.id,

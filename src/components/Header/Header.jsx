@@ -9,7 +9,6 @@ import {
   LogInOut,
 } from "./Header.styled.jsx";
 import logo from "../../media/logo.png";
-import { useState, useEffect, useContext } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -43,9 +42,6 @@ const Header = () => {
         <NavigationList>
           <NavigationItem>
             <NavigationLink to="/">Recipe list</NavigationLink>
-          </NavigationItem>
-          <NavigationItem>
-            <NavigationLink to="favorite">Favorite</NavigationLink>
           </NavigationItem>
           <NavigationItem>
             <NavigationLink to="added">Collection</NavigationLink>
