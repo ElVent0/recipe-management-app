@@ -1,3 +1,6 @@
 import styled from "styled-components";
 
-// const Button = styled.button``;
+export const AppStyled = styled.div`
+  display: flex;
+  justify-content: center;
+`;
