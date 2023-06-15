@@ -33,7 +33,7 @@ const NewItemModal = ({ onOpenModal }) => {
     e.preventDefault();
 
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("recipes")
         .insert({
           user_id: session.user.id,
@@ -48,11 +48,11 @@ const NewItemModal = ({ onOpenModal }) => {
         return;
       } else {
         alert("Recipe created");
+        window.location.reload();
       }
     } catch (e) {
       console.error("insert error", e);
     }
-
     onOpenModal();
   };
 
@@ -93,6 +93,7 @@ const NewItemModal = ({ onOpenModal }) => {
             id="description"
             name="description"
             rows="5"
+            required
             onChange={onChangeInput}
             value={recipeDescription}
           ></Textarea>

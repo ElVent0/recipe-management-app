@@ -5,7 +5,6 @@ import { PageHeader, CreateButton } from "./UserAddedRecipes.styled";
 import { useState } from "react";
 
 const UserAddedRecipes = () => {
-  const [recipeList, setRecipeList] = useState([1, 2, 3]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onOpenModal = () => {
@@ -18,7 +17,7 @@ const UserAddedRecipes = () => {
       <PageHeader>
         <CreateButton onClick={onOpenModal}>Create new</CreateButton>
       </PageHeader>
-      <PageList recipeList={recipeList} />
+      <PageList />
       {isModalOpen && <NewItemModal onOpenModal={onOpenModal} />}
     </SessionProvider>
   );
