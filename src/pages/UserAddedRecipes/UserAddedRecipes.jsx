@@ -9,7 +9,6 @@ const UserAddedRecipes = () => {
 
   const onOpenModal = () => {
     setIsModalOpen((prev) => !prev);
-    console.log(isModalOpen);
   };
 
   return (

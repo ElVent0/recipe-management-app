@@ -74,8 +74,6 @@ const PageList = () => {
     setCurrentIngredient("");
   };
 
-  console.log(recipesList);
-
   return (
     <PageListStyled>
       {recipesList &&

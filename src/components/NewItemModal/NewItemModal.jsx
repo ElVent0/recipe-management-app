@@ -23,7 +23,6 @@ import { onCreateRecipe } from "../../api/supabase";
 const NewItemModal = ({ onOpenModal }) => {
   const supabase = useSupabaseClient();
   const session = useSession();
-  console.log(session);
 
   const [recipeName, setRecipeName] = useState("");
   const [recipeDescription, setRecipeDescription] = useState("");
