@@ -18,6 +18,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import uniqid from "uniqid";
+import { onCreateRecipe } from "../../api/supabase";
 
 const NewItemModal = ({ onOpenModal }) => {
   const supabase = useSupabaseClient();
@@ -28,33 +29,6 @@ const NewItemModal = ({ onOpenModal }) => {
   const [recipeDescription, setRecipeDescription] = useState("");
   const [currentIngredient, setCurrentIngredient] = useState("");
   const [recipeIngredients, setRecipeIngredients] = useState([]);
-
-  const onCreateRecipe = async (e) => {
-    e.preventDefault();
-
-    try {
-      const { error } = await supabase
-        .from("recipes")
-        .insert({
-          user_id: session.user.id,
-          name: recipeName,
-          description: recipeDescription,
-          ingredients: recipeIngredients,
-        })
-        .single();
-
-      if (error) {
-        console.error(error);
-        return;
-      } else {
-        alert("Recipe created");
-        window.location.reload();
-      }
-    } catch (e) {
-      console.error("insert error", e);
-    }
-    onOpenModal();
-  };
 
   const onChangeInput = (e) => {
     if (e.target.id === "title") {
@@ -73,11 +47,23 @@ const NewItemModal = ({ onOpenModal }) => {
     setCurrentIngredient("");
   };
 
+  const onSubmitForm = (e) => {
+    onCreateRecipe(
+      e,
+      supabase,
+      session,
+      recipeName,
+      recipeDescription,
+      recipeIngredients
+    );
+    onOpenModal();
+  };
+
   return ReactDOM.createPortal(
     <Backdrop>
       <Modal>
         <Title>New recipe</Title>
-        <Form onSubmit={onCreateRecipe}>
+        <Form onSubmit={onSubmitForm}>
           <Label htmlFor="title">Receipt name</Label>
           <Input
             type="text"

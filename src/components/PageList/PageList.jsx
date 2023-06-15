@@ -20,6 +20,12 @@ import {
 } from "./PageList.styled";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import uniqid from "uniqid";
+import {
+  onDeleteRecipe,
+  onChangeRecipe,
+  getData,
+  getUserData,
+} from "../../api/supabase";
 
 const PageList = () => {
   const [recipesList, setRecipesList] = useState(null);
@@ -32,80 +38,13 @@ const PageList = () => {
   const [recipeIngredients, setRecipeIngredients] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      const { data, error } = await supabase.from("recipes").select("*");
-
-      if (error) {
-        console.error(error);
-      } else {
-        setRecipesList(data);
-      }
-    };
-
-    const getUserData = async () => {
-      const { data, error } = await supabase
-        .from("recipes")
-        .select("*")
-        .eq("user_id", session.user.id);
-
-      if (error) {
-        console.error(error);
-      } else {
-        setRecipesList(data);
-      }
-    };
-
     if (window.location.pathname === "/") {
-      getData();
+      getData(supabase, setRecipesList);
     } else if (window.location.pathname === "/added") {
-      getUserData();
+      getUserData(supabase, session, setRecipesList);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onDeleteRecipe = async (id) => {
-    try {
-      supabase
-        .from("recipes")
-        .delete()
-        .match({
-          id: id,
-        })
-        .then(() => {
-          alert("Recipe deleted");
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (e) {
-      console.log("delete error", e);
-    }
-  };
-
-  const onChangeRecipe = (id) => {
-    try {
-      supabase
-        .from("recipes")
-        .update({
-          name: recipeName,
-          description: recipeDescription,
-          ingredients: recipeIngredients,
-        })
-        .match({
-          id: id,
-        })
-        .then(() => {
-          alert("Recipe changed");
-          window.location.reload();
-        })
-        .catch((error) => {
-          console.error("Помилка оновлення рядка:", error);
-        });
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   const onEdit = (id) => {
     setOnEditMode(id);
@@ -157,7 +96,9 @@ const PageList = () => {
                       <ButtonEdit onClick={() => onEdit(item.id)}>
                         Edit
                       </ButtonEdit>
-                      <ButtonDelete onClick={() => onDeleteRecipe(item.id)}>
+                      <ButtonDelete
+                        onClick={() => onDeleteRecipe(supabase, item.id)}
+                      >
                         Delete
                       </ButtonDelete>
                     </ButtonsContainer>
@@ -165,7 +106,17 @@ const PageList = () => {
                 </>
               ) : (
                 <>
-                  <Form onSubmit={() => onChangeRecipe(item.id)}>
+                  <Form
+                    onSubmit={() =>
+                      onChangeRecipe(
+                        supabase,
+                        recipeName,
+                        recipeDescription,
+                        recipeIngredients,
+                        item.id
+                      )
+                    }
+                  >
                     <Label htmlFor="title">Receipt name</Label>
                     <Input
                       type="text"
