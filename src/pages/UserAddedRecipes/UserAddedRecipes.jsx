@@ -1,10 +1,27 @@
-import { useSession } from "@supabase/auth-helpers-react";
-import UnauthorizedUser from "../../components/UnauthorizedUser/UnauthorizedUser";
+import SessionProvider from "../../components/SessionProvider/SessionProvider";
+import PageList from "../../components/PageList/PageList";
+import NewItemModal from "../../components/NewItemModal/NewItemModal";
+import { PageHeader, CreateButton } from "./UserAddedRecipes.styled";
+import { useState } from "react";
 
 const UserAddedRecipes = () => {
-  const session = useSession();
+  const [recipeList, setRecipeList] = useState([1, 2, 3]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  return <>{session ? <div>abcd</div> : <UnauthorizedUser />}</>;
+  const onOpenModal = () => {
+    setIsModalOpen((prev) => !prev);
+    console.log(isModalOpen);
+  };
+
+  return (
+    <SessionProvider>
+      <PageHeader>
+        <CreateButton onClick={onOpenModal}>Create new</CreateButton>
+      </PageHeader>
+      <PageList recipeList={recipeList} />
+      {isModalOpen && <NewItemModal onOpenModal={onOpenModal} />}
+    </SessionProvider>
+  );
 };
 
 export default UserAddedRecipes;

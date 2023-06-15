@@ -1,10 +1,14 @@
-import { useSession } from "@supabase/auth-helpers-react";
-import UnauthorizedUser from "../../components/UnauthorizedUser/UnauthorizedUser";
+import SessionProvider from "../../components/SessionProvider/SessionProvider";
+import { PageHeader, CreateButton } from "./FavoriteRecipes.styled";
 
 const FavoriteRecipes = () => {
-  const session = useSession();
-
-  return <>{session ? <div>abcd</div> : <UnauthorizedUser />}</>;
+  return (
+    <SessionProvider>
+      {/* <PageHeader>
+        <CreateButton>Create new</CreateButton>
+      </PageHeader> */}
+    </SessionProvider>
+  );
 };
 
 export default FavoriteRecipes;

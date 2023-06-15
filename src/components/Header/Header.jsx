@@ -11,6 +11,7 @@ import {
 import logo from "../../media/logo.png";
 import { useState, useEffect, useContext } from "react";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { FcGoogle } from "react-icons/fc";
 
 const Header = () => {
   const session = useSession();
@@ -44,10 +45,10 @@ const Header = () => {
             <NavigationLink to="/">Recipe list</NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink to="favorite">Favorite Recipes</NavigationLink>
+            <NavigationLink to="favorite">Favorite</NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink to="added">User-Added Recipes</NavigationLink>
+            <NavigationLink to="added">Collection</NavigationLink>
           </NavigationItem>
         </NavigationList>
       </Navigation>
@@ -57,7 +58,10 @@ const Header = () => {
         </>
       ) : (
         <>
-          <LogInOut onClick={onLogin}>Login</LogInOut>
+          <LogInOut onClick={onLogin}>
+            <FcGoogle />
+            Login
+          </LogInOut>
         </>
       )}
     </HeaderStyled>

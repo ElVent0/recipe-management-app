@@ -12,6 +12,7 @@ export const HeaderStyled = styled.div`
 export const LogoName = styled.p`
   color: #ededed;
   margin-left: 10px;
+  font-weight: 700;
 `;
 
 export const Logo = styled.img`
@@ -65,5 +66,8 @@ export const LogInOut = styled.button`
   &:hover,
   &:active {
     background-color: #eeeeee;
+  }
+  & > svg {
+    margin-right: 8px;
   }
 `;
